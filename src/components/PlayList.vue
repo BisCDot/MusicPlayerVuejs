@@ -2,7 +2,7 @@
     <PlayCd v-bind:song="songs[currentSongIndex]"></PlayCd>
     <div class="playlist" v-on:click="playlistClick">
         <div  v-for="(song , index) in songs" v-bind:key="index" v-bind:class="[songItemClass,(index === currentSongIndex) ? activeclass : '']" :data-index="index" 
-        v-on:click="playSong(index)">
+        >
             <div class="thumb" v-bind:style="{backgroundImage :'url('+song.image+')'}">
             </div>
             <div class="body">
@@ -15,7 +15,7 @@
         </div>
     </div>
     <PlayControll v-bind:song="songs[currentSongIndex]" @next="playNext"
-            @previous="playPrevious" @playAudio="playSong"></PlayControll>
+            @previous="playPrevious"  ></PlayControll>
 </template>
 <style>
     .playlist{
@@ -80,8 +80,10 @@
     }
     </style>
 <script>
-    import PlayCd from "./PlayCd.vue";
+    
     import PlayControll from "./PlayControll.vue";
+    import PlayCd from "./PlayCd.vue";
+
     export default {
         components : {
         PlayCd,
@@ -145,15 +147,17 @@
                 ]
             }
         },
+        
+        
+        
         methods : {
-            playlistClick(event){
+             playlistClick(event){
                 const songNode = event.target.closest(".song:not(.active)");
                 if (songNode || event.target.closest(".option")){
                     if (songNode) {
                        var indexlist = Number(songNode.dataset.index);
                         this.currentSongIndex = indexlist;
-                        
-                        
+                         
                     }
                     if (event.target.closest(".option")) {
                         console.log("hihi");
@@ -161,9 +165,7 @@
                 }
              
             },
-            playSong (index) {
-            this.currentSongIndex = index;
-            },
+            
             playNext () {
             if (this.currentSongIndex < this.songs.length - 1) {
                 this.currentSongIndex += 1;
