@@ -2,8 +2,8 @@
         <div id="header">
             <!--begin:nav-->
             <ul id="nav">
-                <li class="active"> <a href="#">  <font-awesome-icon icon="fas fa-home" /> Home</a></li>
-                <li><a href="">library </a></li>
+                <li > <router-link  to="/"> <p><font-awesome-icon icon="fas fa-home" />Home</p></router-link></li>
+                <li><router-link  to="/library"><p>library </p></router-link></li>
                 <li><a href="">Radio</a></li>
                 <li>
                     <a href="">More <font-awesome-icon icon="fa-solid fa-angle-down" /></a>
@@ -13,13 +13,13 @@
                         <li><a href="">Music Favourite</a></li>
                     </ul>
                 </li>
-
             </ul>
             <div class="search-bth">
                 <font-awesome-icon icon="fa fa-search" />
             </div>
             <!-- end:nav-->
         </div>
+        <router-view/>
 </template>
 <script>
 export default {
@@ -42,9 +42,13 @@ export default {
     right: 0px;
     z-index: 1;
 }
+
 #nav{
     display: inline-block;
     
+}
+#nav li a.router-link-exact-active{
+    background-color: var(--primary-color);
 }
 #nav > li {
     display: inline-block;

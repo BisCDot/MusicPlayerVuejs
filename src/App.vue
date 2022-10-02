@@ -1,15 +1,16 @@
 <template>
-  <Home></Home>
+  <Menu></Menu>
 </template>
 <script>
-import Home from './views/Home.vue';
+import Menu from './components/Menu.vue';
 
 export default {
-  
+
   components: {
-    Home
-}
-}
+    Menu
+},
+
+} 
 </script>
 
 <style>

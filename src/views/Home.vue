@@ -1,7 +1,7 @@
 <template>
     <Menu>
     </Menu>
-    <PlayList></PlayList>
+    <PlayList ></PlayList>
 
 </template>
 <script>
@@ -11,6 +11,6 @@ export default{
     components : {
     Menu,
     PlayList
-}
+    },
 }
 </script>

@@ -10,7 +10,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* import specific icons */
 import { faUserSecret,faHome,faAngleDown,faSearch,faEllipsisH,faStepBackward,faPause,faPlay,faStepForward,faRandom} from '@fortawesome/free-solid-svg-icons'
 
+import router from './router'
+
 /* add icons to the library */
 library.add(faUserSecret,faHome,faAngleDown,faEllipsisH,faSearch,faStepBackward,faPause,faPlay,faStepForward,faRandom)
 
-createApp(App).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+createApp(App).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')

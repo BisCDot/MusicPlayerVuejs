@@ -82,9 +82,9 @@
             },
            
             next () {
+                this.$emit('next');
                 this.$refs.audioPlayer.play();
                 this.isPlaying = true;
-                this.$emit('next');
             
             },
             previous () {
