@@ -5,24 +5,24 @@
                 <div class="spacer"></div>
             <div class="form-group">
                 <label for="songname" class="form-label">Tên bài hát</label>
-                <input id="song-name" name="song-name" type="text" class="form-control">
+                <input id="song-name" name="song-name" type="text" v-model="Name" class="form-control">
                 
             </div>
             <div class="form-group">
                 <label for="singer" class="form-label">Ca sĩ</label>
-                <input id="singer" name="singer" type="text" class="form-control">
+                <input id="singer" name="singer" type="text" v-model="Singer" class="form-control">
                 
             </div>
             <div class="form-group">
                 <label for="image" class="form-label">Link ảnh</label>
-                <input id="image" name="image" type="text" class="form-control">
+                <input id="image" name="image" type="text" v-model="Image" class="form-control">
                 
             </div>
             <div class="form-group">
                 <label for="path" class="form-label">Link bài hát</label>
-                <input id="path" name="path" type="text" class="form-control">
+                <input id="path" name="path" type="text" v-model="Path" class="form-control">
             </div>
-            <button class="form-submit" >Thêm bài</button>
+            <button class="form-submit" v-on:click="addSong()">Thêm bài</button>
            </div>
             
         </div>
@@ -99,7 +99,28 @@
 
 </style>
 <script>
+    import axios from 'axios'
  export default {
+    data(){
+        return{
+            Name : "",
+            Singer : "",
+            Path : "",
+            Image : "",
+        }
 
+    },
+    methods:{
+        addSong(){
+            axios.post("https://localhost:5001/api/Songs/PostSong",{
+                Name : this.Name,
+                Singer: this.Singer,
+                Path : this.Path,
+                Image : this.Image,
+            })
+            location.reload();
+            console.log("day ne" , this.Name,this.Singer,this.Path,this.Image)
+        }
+    }
 }
 </script>

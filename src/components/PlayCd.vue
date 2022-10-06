@@ -7,8 +7,8 @@
             <div class="title-singer">
                 <h2 class="singer">{{song.singer}}</h2>
             </div>
-            <div class="cd">
-                <div class="cd-thumb" :style="{backgroundImage:`url(${song.image})`}" >
+            <div class="cd"  >
+                <div class="cd-thumb" v-bind:style="{backgroundImage:`url(${song.image})`,WebkitTransform : `rotate(${degree}deg)`}"  >
                 </div>
             </div>
             
@@ -16,14 +16,33 @@
 </template>
 <script>
     export default {
+        data(){
+            return{
+                rotateCd : false,
+                // degree : 0,
+                // timer : 0
+            }
+        },
         props: {
+            degree : Number,
             song : {
                 name : String,
                 singer : String,
                 path : String,
                 image : String
             }
-        }
+        },
+        emits : ['rotate'],
+        methods : {
+            
+            rotate() {
+            // this.timer = setTimeout(() => {
+            // ++this.degree; this.rotate();
+            // },35);
+            this.$emits('rotate')
+        },
+        },
+        
     }
     </script>
 <style>
@@ -53,6 +72,10 @@
     margin-bottom: auto;
     position: absolute;
     
+}
+.rotateCd{
+    transform: rotate(360deg);
+    transition: transform var(--degree) ease-in-out;
 }
 .cd-thumb{
     width: 100%;

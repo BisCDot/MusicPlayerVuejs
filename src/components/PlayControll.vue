@@ -1,11 +1,10 @@
 <template>
     <div class="play-Controls">
-            <audio :src="song.path" ref="audioPlayer" v-bind:autoplay="isPlaying"  @timeupdate="onTimeUpdate"></audio>
             <div class="play-Controls-wrap">
                 <div class="btn btn-prev" v-on:click="previous">
                     <font-awesome-icon icon="fas fa-step-backward" />
                 </div>
-                <div class="btn btn-toggle-play" v-on:click="playAudio">
+                <div class="btn btn-toggle-play" @click="playAudio">
                     <div v-if="isPlaying">
                         <font-awesome-icon  icon="fas fa-pause icon-pause" />
                     </div>
@@ -20,28 +19,50 @@
                     <font-awesome-icon icon="fas fa-random" />
                   </div>
                   <span id="current-time" class="time">{{curmins}}:{{cursecs}}</span>
-                <input id="progress" class="progress" type="range"  step="1" min="0" max="100" v-model="timeProgress" v-on:change="updateTime">    
+                <input id="progress" class="progress" type="range"  step="1" min="0" max="100" :value="timeProgress" @change="updateTime">    
                 <span id="duration-time" class="time">{{durmins}}:{{dursecs}}</span>
+                <div id="volume">
+					<a   href="#">
+						<font-awesome-icon icon="fa-solid fa-volume-high" />
+						<input  class="player-volume" type="range" min="0" max="100"/>
+					</a>
+				</div>
             </div>
         </div>
 </template>
 <script>
+import { reactive } from 'vue';
+
     export default{
-        data () {
+        setup () {
+            const e = reactive({
+                event : 0,
+            });
         return {
-            
-            isPlaying : false,
-            currentTime: 0,
-            cursecs : 0,
-            curmins : 0,
-            dursecs : 0,
-            durmins : 0,
-            timeProgress : 0
+            e,
         }
         },
          
         
         props: {
+            isPlaying : Boolean,
+            cursecs : {
+                type : [String, Number],
+                require : true
+            },
+            curmins : {
+                type : [String, Number],
+                require : true
+            },
+            dursecs :  {
+                type : [String, Number],
+                require : true
+            },
+            durmins :  {
+                type : [String, Number],
+                require : true
+            },
+            timeProgress : Number,
             song : {
                 name : String,
                 singer : String,
@@ -50,52 +71,30 @@
             }
         },
         
-        emits: ['next', 'previous',],
+        emits: ['next', 'previous','playAudio','updateTime'],
         methods: {
-            onTimeUpdate () {
-                if(this.$refs.audioPlayer.duration){
-                    let timeProgress = this.$refs.audioPlayer.currentTime * (100 / this.$refs.audioPlayer.duration);
-                    this.timeProgress = timeProgress;
-                    let curmins = Math.floor(this.$refs.audioPlayer.currentTime / 60);
-                    let cursecs = Math.floor(this.$refs.audioPlayer.currentTime - curmins * 60);
-                    if(cursecs < 10){ cursecs = "0"+cursecs; }
-                    if(curmins < 10){ curmins = "0"+curmins; }
-                    this.curmins = curmins;
-                    this.cursecs = cursecs;
-                    let durmins = Math.floor(this.$refs.audioPlayer.duration / 60);
-                    let dursecs = Math.floor(this.$refs.audioPlayer.duration - durmins * 60);
-                
-                    if(dursecs < 10){ dursecs = "0"+dursecs; }
-                    if(durmins < 10){ durmins = "0"+durmins; }
-                    this.durmins = durmins;
-                    this.dursecs = dursecs;
-                }
-            },
-            playAudio(){
-                if (this.isPlaying) {
-                this.$refs.audioPlayer.pause();
-                this.isPlaying = false;
-            } else {
-                this.$refs.audioPlayer.play();
-                this.isPlaying = true;
-            }
-            },
            
-            next () {
+
+            playAudio(){
+                this.$emit('playAudio');
+            },
+            
+           
+            next() {
                 this.$emit('next');
-                this.$refs.audioPlayer.play();
-                this.isPlaying = true;
+                
             
             },
             previous () {
                 this.$emit('previous');
-                this.$refs.audioPlayer.play();
-                this.isPlaying = true;
+                
             },
             updateTime (e) {
-                let seekTime = (this.$refs.audioPlayer.duration / 100) * e.target.value;
-                this.$refs.audioPlayer.currentTime = seekTime;
-            }
+                this.e.event = e.target.value;
+               
+                this.$emit('updateTime')
+            },
+            
            
 
         },
@@ -190,5 +189,14 @@
 }
 .ti-control-skip-backward{
     
+}
+#volume{
+    margin-left: 10px;
+}
+.player-volume {
+	display: inline-block;
+	height: 1.1rem;
+	margin: 0 0 0 2px;
+	width: 6rem;
 }
 </style>
